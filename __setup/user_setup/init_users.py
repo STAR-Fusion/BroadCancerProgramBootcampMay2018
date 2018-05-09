@@ -12,7 +12,7 @@ logging.basicConfig(stream=sys.stderr, level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-docker_image = "trinityctat/berlin2017"
+docker_image = "trinityctat/broadcancerprogrambootcampmay2018"
 
 def main():
 
@@ -25,14 +25,13 @@ def main():
     
     parser.add_argument("--apache_base_port", type=int, default=8001, help="base port for apache")
     parser.add_argument("--gateone_base_port", type=int, default=9001, help="base port for gateone")
-    parser.add_argument("--ssh_base_port", type=int, default=10001, help="base port for rstudio")
+
 
     args = parser.parse_args()
 
     
     apache_user_port = args.apache_base_port
     gateone_user_port = args.gateone_base_port
-    ssh_user_port = args.ssh_base_port
     
     users_basedir = os.path.abspath("user_spaces")
     if not os.path.isdir(users_basedir):
@@ -55,9 +54,7 @@ def main():
         cmd = str("docker run -v {}:/home/training ".format(user_dir) +
                   " -v /home/training/workshop_shared/shared:/home/training/shared_ro:ro " +
                   " -v {}:/var/www/html ".format(user_dir) +
-                  " -v /home/training/workshop_shared/js:/var/www/html/js:ro " +
-                  " -v /home/training/workshop_shared/css:/var/www/html/css:ro " +
-                  " -p {}:22 -p {}:80 -p {}:443 ".format(ssh_user_port, apache_user_port, gateone_user_port) +
+                  " -p {}:80 -p {}:443 ".format(apache_user_port, gateone_user_port) +
                   " --name trinity_{} -d {}".format(user, docker_image))
         
         #subprocess.check_output(cmd)
@@ -69,7 +66,7 @@ def main():
         
         apache_user_port += 1
         gateone_user_port += 1
-        ssh_user_port += 1
+      
 
 
 
