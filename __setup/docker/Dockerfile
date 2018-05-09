@@ -46,7 +46,10 @@ CMD ["/usr/bin/supervisord","-c","/etc/supervisor/conf.d/supervisord.conf"]
 
 ENV TERM=xterm-256color
 
+COPY 000-default.conf /etc/apache2/sites-available/
+
 WORKDIR $HOME
 
+ENV STAR_FUSION_HOME /usr/local/src/STAR-Fusion
 
-
+RUN apt-get install -y bsdmainutils

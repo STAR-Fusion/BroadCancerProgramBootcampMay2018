@@ -51,8 +51,8 @@ def main():
             os.makedirs(user_dir)
             
         # launch docker
-        cmd = str("docker run -v {}:/home/training ".format(user_dir) +
-                  " -v /home/training/workshop_shared/shared:/home/training/shared_ro:ro " +
+        cmd = str("sudo docker run --rm -v {}:/home/training ".format(user_dir) +
+                  " -v /home/training/shared_ro:/home/training/workshop_data:ro " +
                   " -v {}:/var/www/html ".format(user_dir) +
                   " -p {}:80 -p {}:443 ".format(apache_user_port, gateone_user_port) +
                   " --name trinity_{} -d {}".format(user, docker_image))

@@ -25,19 +25,38 @@ sudo docker pull trinityctat/broadcancerprogrambootcampmay2018
 
 git clone https://github.com/STAR-Fusion/BroadCancerProgramBootcampMay2018.git
 
-cd /home/bhaas/CEGS_single_cell_tx_workshop_Sept2017/__setup
-
-# scws1:
-./init_users.py --ip_addr 35.196.203.140 --num_users 25 | sudo sh
-
-# scws2:
-./init_users.py --ip_addr 35.185.50.88 --num_users 25 | sudo sh
 
 
+## set up training materials
+
+sudo usermod -a -G training bhaas
+- logout and log back in again to see updated group settings.
+sudo mkdir /home/training/shared_ro
+
+cd /home/training/shared_ro
+sudo chgrp training /home/training/shared_ro
+sudo chown training /home/training/shared_ro
+sudo chmod 775 /home/training/shared_ro
+
+git clone https://github.com/STAR-Fusion/STAR-Fusion-Tutorial.git
+sudo chgrp -R training /home/training/shared_ro/
+sudo chown -R training /home/training/shared_ro/
 
 
 
 
+## init users and start dockers
+
+IP=35.227.55.12  # ephemeral
+
+cd
+~/BroadCancerProgramBootcampMay2018/__setup/user_setup/init_users.py  --num_users 25 --ip_addr $IP --apache_base_port 8000 --gateone_base_port 9000 | tee cmds.list
+sudo sh ./cmds.list
+
+
+
+## stopping and removing the dockers
+sudo ~/BroadCancerProgramBootcampMay2018/__setup/user_setup/remove_user_dockers.sh 1
 
 
 
